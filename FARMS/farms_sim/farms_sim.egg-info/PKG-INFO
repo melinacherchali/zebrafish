@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: farms-sim
+Version: 0.1
+Summary: FARMS package for sim simulations
+Author: farmsdev
+Author-email: biorob-farms@groupes.epfl.ch
+Keywords: farms control simulation

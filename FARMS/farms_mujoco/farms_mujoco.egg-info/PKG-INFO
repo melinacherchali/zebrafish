@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: farms-mujoco
+Version: 0.1
+Summary: FARMS package for running simulations with MuJoCo
+Author: farmsdev
+Author-email: biorob-farms@groupes.epfl.ch
+Keywords: farms simulation mujoco
