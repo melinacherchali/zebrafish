@@ -2,8 +2,8 @@ graphviz
 latex
 numpydoc
 sphinx-rtd-theme
-numpy
-nptyping
+numpy==1.26.4
+nptyping==2.5.0
 scipy
 matplotlib==3.7.0
 tqdm
