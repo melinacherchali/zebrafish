@@ -47,5 +47,15 @@ class WaveController:
         In addition to returning the activation functions, store
         them in self.motor_out for later use offline
         """
+
+        A = self.pars.amp
+        twl = self.pars.twl
+        freq = self.pars.freq
+        time = iteration*timestep
+
+        self.motor_out[iteration, self.motor_l] = 0.5 + A/2 * np.sin(2*np.pi*(freq * time - twl*(self.motor_l/self.n_total_joints)))
+        self.motor_out[iteration, self.motor_r] = 0.5 - A/2 * np.sin(2*np.pi*(freq * time - twl*(self.motor_r/self.n_total_joints)))
+
+        return self.motor_out[iteration]
         return np.zeros(30)
 

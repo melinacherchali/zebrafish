@@ -33,6 +33,16 @@ def exercise0():
         pars
     )
 
+    plt.figure('joint_angle_evolution', figsize=[10, 10])
+    plotting_common.plot_time_histories_multiple_windows(controller.times, controller.joints[:,:,0])
+
+    plt.figure('left_right_motor_out', figsize=[10, 10])
+    plotting_common.plot_left_right(controller.times, controller.motor_out, controller.motor_l, controller.motor_r)
+    
+    plt.figure('trajectory', figsize=[10, 10])
+    plotting_common.plot_trajectory(controller)
+
+    plt.show()
 
 if __name__ == '__main__':
 

@@ -11,7 +11,7 @@
         ],
         "name": "farms_core.model.data_cy",
         "sources": [
-            "farms_core/model/data_cy.pyx"
+            "farms_core/model\\data_cy.pyx"
         ]
     },
     "module_name": "farms_core.model.data_cy"
@@ -1489,10 +1489,10 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "<stringsource>",
-  "farms_core/model/data_cy.pyx",
-  "farms_core/sensors/data_cy.pxd",
-  "farms_core/model/data_cy.pxd",
-  "farms_core/array/array_cy.pxd",
+  "farms_core\\\\model\\\\data_cy.pyx",
+  "farms_core\\\\sensors\\\\data_cy.pxd",
+  "farms_core\\\\model\\\\data_cy.pxd",
+  "farms_core\\\\array\\\\array_cy.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
