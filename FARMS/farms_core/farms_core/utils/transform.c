@@ -12,7 +12,7 @@
         ],
         "name": "farms_core.utils.transform",
         "sources": [
-            "farms_core/utils/transform.pyx"
+            "farms_core/utils\\transform.pyx"
         ]
     },
     "module_name": "farms_core.utils.transform"
@@ -1490,7 +1490,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "farms_core/utils/transform.pyx",
+  "farms_core\\\\utils\\\\transform.pyx",
   "<stringsource>",
 };
 /* #### Code section: utility_code_proto_before_types ### */
