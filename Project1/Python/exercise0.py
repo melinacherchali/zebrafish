@@ -33,14 +33,24 @@ def exercise0():
         pars
     )
 
-    plt.figure('joint_angle_evolution', figsize=[10, 10])
-    plotting_common.plot_time_histories_multiple_windows(controller.times, controller.joints[:,:,0])
+    plt.figure('joint_angle_evolution', figsize=[8, 8])
+    plotting_common.plot_time_histories_multiple_windows(controller.times, controller.joints[:,:,0], ylabel=None, xlabel=None, 
+                                                         colors = plt.cm.jet(np.linspace(0, 1, controller.joints[:,:,0].shape[1])).tolist())
+    plt.gcf().text(0.04, 0.5, 'Joint angles [rad]', va='center', rotation='vertical')
+    plt.gcf().text(0.5, 0.04, 'Time [s]', ha='center')
+    plt.gcf().text(0.5, 0.9, 'Joint angles evolution', ha='center')
+    for ax in plt.gcf().get_axes()[1:]:
+        ax.set_yticklabels([])
+    for ax in plt.gcf().get_axes()[:-1]:
+        ax.set_xticklabels([])
 
-    plt.figure('left_right_motor_out', figsize=[10, 10])
+    plt.figure('left_right_motor_out', figsize=[8, 8])
     plotting_common.plot_left_right(controller.times, controller.motor_out, controller.motor_l, controller.motor_r)
+    plt.gcf().text(0.5, 0.92, 'Left and right motor outputs', ha='center')
     
-    plt.figure('trajectory', figsize=[10, 10])
+    plt.figure('trajectory', figsize=[8, 8])
     plotting_common.plot_trajectory(controller)
+    plt.gcf().text(0.5, 0.9, 'Center of mass trajectory', ha='center')
 
     plt.show()
 

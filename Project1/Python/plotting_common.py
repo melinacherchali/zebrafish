@@ -219,7 +219,7 @@ def plot_time_histories_multiple_windows(
     xticks = kwargs.pop('xticks', None)
     yticks = kwargs.pop('yticks', None)
     xticks_labels = kwargs.pop('xticks_labels', None)
-    yticks_labels = kwargs.pop('xticks_labels', None)
+    yticks_labels = kwargs.pop('yticks_labels', None)
     closefig = kwargs.pop('closefig', True)
 
     if isinstance(colors, list) and len(colors) == state.shape[1]:
