@@ -20,8 +20,6 @@ class SimulationParameters:
         self.n_passive_joints = 2  # number of passive joints
         self.timestep = 0.001  # integration time step
         self.n_iterations = 4001  # number of integration time steps
-        self.timestep = 0.001  # integration time step
-        self.n_iterations = 4001  # number of integration time steps
 
         # gui/recording parameters
         self.headless = True  # For headless mode (No GUI, could be faster)
@@ -53,7 +51,7 @@ class SimulationParameters:
         self.gravity = np.array([0, 0, -9.81])  # gravity vector
         self.damping_factor = 1.0  # damping factor for the joints
         # animal initial pose (x, y, z, roll, pitch, yaw)
-        self.animal_pose = [0.0, 0.0, -0.01, 0.0, 0, -1.570796327]
+        self.animal_pose = [0.0, 0.0, -0.01, 0.0, 0, -1.570796327] # in water
         self.joint_poses = np.zeros(
             self.n_total_joints)  # initial joint angles
 

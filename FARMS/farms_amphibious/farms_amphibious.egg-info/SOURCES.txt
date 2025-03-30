@@ -9,13 +9,6 @@ farms_amphibious.egg-info/dependency_links.txt
 farms_amphibious.egg-info/not-zip-safe
 farms_amphibious.egg-info/requires.txt
 farms_amphibious.egg-info/top_level.txt
-farms_amphibious/control/ekeberg.c
-farms_amphibious/control/joints_control_cy.c
-farms_amphibious/control/muscle_cy.c
-farms_amphibious/control/passive_cy.c
-farms_amphibious/control/position_muscle_cy.c
-farms_amphibious/control/position_phase_cy.c
-farms_amphibious/data/data_cy.c
 farms_amphibious/analysis/__init__.py
 farms_amphibious/analysis/metrics.py
 farms_amphibious/analysis/plot.py

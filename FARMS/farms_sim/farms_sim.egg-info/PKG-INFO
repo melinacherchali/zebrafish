@@ -1,17 +1,13 @@
-Metadata-Version: 2.4
-Name: farms_sim
+Metadata-Version: 2.1
+Name: farms-sim
 Version: 0.1
 Summary: FARMS package for sim simulations
+Home-page: UNKNOWN
 Author: farmsdev
 Author-email: biorob-farms@groupes.epfl.ch
+License: UNKNOWN
 Keywords: farms control simulation
-Requires-Dist: farms_core
-Requires-Dist: farms_mujoco
-Requires-Dist: cython
-Requires-Dist: numpy
-Requires-Dist: trimesh
-Dynamic: author
-Dynamic: author-email
-Dynamic: keywords
-Dynamic: requires-dist
-Dynamic: summary
+Platform: UNKNOWN
+
+UNKNOWN
+

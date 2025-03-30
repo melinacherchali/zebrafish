@@ -1,5 +1,5 @@
-Metadata-Version: 2.4
-Name: farms_core
+Metadata-Version: 2.1
+Name: farms-core
 Version: 0.1
 Summary: FARMS core package
 Home-page: https://gitlab.com/farmsim/farms_core
@@ -7,19 +7,3 @@ Author: farmsdev
 Author-email: biorob-farms@groupes.epfl.ch
 Keywords: farms framework animal robot modelling simulation
 License-File: LICENSE
-Requires-Dist: cython
-Requires-Dist: numpy
-Requires-Dist: nptyping
-Requires-Dist: matplotlib
-Requires-Dist: scipy
-Requires-Dist: PyYAML
-Requires-Dist: trimesh
-Requires-Dist: h5py
-Requires-Dist: colorama
-Dynamic: author
-Dynamic: author-email
-Dynamic: home-page
-Dynamic: keywords
-Dynamic: license-file
-Dynamic: requires-dist
-Dynamic: summary

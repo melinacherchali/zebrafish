@@ -3,3 +3,8 @@
 
 # Ignore the virtual environment folder
 zebra_sim/
+
+# Ignore FARMS 
+FARMS/
+
+

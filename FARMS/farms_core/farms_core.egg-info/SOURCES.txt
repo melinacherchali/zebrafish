@@ -11,11 +11,6 @@ farms_core.egg-info/dependency_links.txt
 farms_core.egg-info/not-zip-safe
 farms_core.egg-info/requires.txt
 farms_core.egg-info/top_level.txt
-farms_core/array/array_cy.c
-farms_core/model/data_cy.c
-farms_core/sensors/data_cy.c
-farms_core/sensors/sensor_convention.c
-farms_core/utils/transform.c
 farms_core/analysis/__init__.py
 farms_core/analysis/metrics.py
 farms_core/analysis/plot.py

@@ -11,7 +11,7 @@
         ],
         "name": "farms_core.sensors.sensor_convention",
         "sources": [
-            "farms_core/sensors\\sensor_convention.pyx"
+            "farms_core/sensors/sensor_convention.pyx"
         ]
     },
     "module_name": "farms_core.sensors.sensor_convention"
@@ -1486,7 +1486,7 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "<stringsource>",
-  "farms_core\\\\sensors\\\\sensor_convention.pyx",
+  "farms_core/sensors/sensor_convention.pyx",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
