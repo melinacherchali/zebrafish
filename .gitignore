@@ -7,4 +7,4 @@ zebra_sim/
 # Ignore FARMS 
 FARMS/
 
-
+.DS_Store
