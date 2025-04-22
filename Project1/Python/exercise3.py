@@ -5,6 +5,7 @@ import os
 import farms_pylog as pylog
 import matplotlib.pyplot as plt
 from plotting_common import plot_time_histories, plot_time_histories_multiple_windows, save_figures
+import plotting_common
 import numpy as np
 
 
@@ -23,8 +24,8 @@ def exercise3():
         print_metrics= False,
         return_network=True,
         video_record = False,
-        video_name = "simulation3",
-        headless = False,
+        #video_name = "simulation3",
+        #headless = False,
     )
 
     pylog.info("Running the simulation")
@@ -61,7 +62,21 @@ def exercise3():
     plt.figure('Motor Output Difference', figsize=[10, 8])
     plot_time_histories(controller.times, dmotor, xlabel = "Time [s]", ylabel = "Motor Output Difference")
     plt.title("Motor Output Difference")  
-    plt.show()    
+    #plt.show()   
+    
+    plt.figure('Joint Angle Evolution', figsize=[8, 8])
+    plotting_common.plot_time_histories_multiple_windows(controller.times, controller.joints[:,:,0], ylabel=None, xlabel=None, 
+                                                         colors = plt.cm.jet(np.linspace(0, 1, controller.joints[:,:,0].shape[1])).tolist())
+    plt.gcf().text(0.04, 0.5, 'Joint angles [rad]', va='center', rotation='vertical')
+    plt.gcf().text(0.5, 0.04, 'Time [s]', ha='center')
+    # plt.gcf().text(0.5, 0.9, 'Joint angles evolution (A = ' + str(pars.amp) + ', TWL = ' + str(pars.twl) + ', freq = ' + str(pars.freq) + ')', ha='center')
+    for ax in plt.gcf().get_axes()[1:]:
+        ax.set_yticklabels([])
+    for ax in plt.gcf().get_axes()[:-1]:
+        ax.set_xticklabels([])
+    plt.title("Joint Angle Evolution", y = 18)
+    plt.show()
+    #plotting_common.save_figures(folder=save_path) 
     
     #save_figures()
     
