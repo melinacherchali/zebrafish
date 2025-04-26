@@ -30,24 +30,19 @@ class AbstractOscillatorController:
         self.dstate = np.zeros([self.n_eq])  # derivative state
 
         # State index
-        self.oscillator_phase_l = np.arange(0, self.pars.n_joints)
-        self.oscillator_phase_r = self.pars.n_joints + \
-            np.arange(0, self.pars.n_joints)
+        self.oscillator_phase_l = np.arange(0, self.pars.n_joints) * 2
+        self.oscillator_phase_r = np.arange(0, self.pars.n_joints) * 2 + 1
         self.oscillator_phase_all = np.arange(0, 2*self.pars.n_joints)
-        self.oscillator_amplitude_l = self.pars.n_joints * \
-            2 + np.arange(0, self.pars.n_joints)
-        self.oscillator_amplitude_r = self.pars.n_joints * \
-            3 + np.arange(0, self.pars.n_joints)
-        self.oscillator_amplitude_all = self.pars.n_joints * \
-            2 + np.arange(0, 2*self.pars.n_joints)
+        self.oscillator_amplitude_l = self.pars.n_joints * 2 + np.arange(0, self.pars.n_joints) * 2
+        self.oscillator_amplitude_r = self.pars.n_joints * 2 + np.arange(0, self.pars.n_joints) * 2 + 1
+        self.oscillator_amplitude_all = self.pars.n_joints * 2 + np.arange(0, 2*self.pars.n_joints)
 
         # Initial state
         if self.pars.initial_phases is None:
-            self.state[0, :self.pars.n_joints] = 1 * \
+            self.state[0, 0:2*self.pars.n_joints-1:2] = 1 * \
                 np.linspace(2*np.pi, 0, self.pars.n_joints)
-            self.state[0, self.pars.n_joints:2 *
-                       self.pars.n_joints] = np.linspace(np.pi, -
-                                                         np.pi, self.pars.n_joints)
+            self.state[0, 1:2*self.pars.n_joints:2] = np.linspace(
+                np.pi, -np.pi, self.pars.n_joints)
         else:
             self.state[0, :2*self.pars.n_joints] = self.pars.initial_phases
 
@@ -89,8 +84,29 @@ class AbstractOscillatorController:
         """
         n_oscillators = self.n_oscillators
         # Implement equation here
-        dphases = np.zeros(n_oscillators)
-        damplitudes = np.zeros(n_oscillators)
+        #dphases = np.zeros(n_oscillators)
+        #damplitudes = np.zeros(n_oscillators)
+        
+         #calculation of f and R_i
+        f = self.pars.cpg_frequency_gain*self.pars.drive + self.pars.cpg_frequency_offset
+        
+        #nominal amplitude is the same for each joint so we repeat each value twice
+        nomimal_amp = np.repeat(self.pars.cpg_amplitude_gain*self.pars.drive,2)
+        
+        dphases = 2*np.pi*f * np.ones(n_oscillators)
+        state_phase = np.array(state[:n_oscillators])
+        state_amp = np.array(state[n_oscillators:])
+        
+        
+        for i in range(n_oscillators) :
+            for j in range(n_oscillators) :
+                if abs(i-j) == 2:
+                    dphases[i] += state_amp[j] * self.pars.weights_body2body * np.sin(state_phase[j]-state_phase[i]- np.sign(i-j)*self.pars.phase_lag_body/(self.pars.n_total_joints-1))
+                if abs(i-j) == 1 and min(i,j)%2== 0:
+                    dphases[i] += state_amp[j] * self.pars.weights_body2body_contralateral * np.sin(state_phase[j]-state_phase[i]- np.sign(i-j)*np.pi)
+                    
+        damplitudes =  self.pars.amplitude_rates*(nomimal_amp - state_amp)
+        
         return np.concatenate([dphases, damplitudes])
 
     def motor_output(self, iteration):
@@ -117,7 +133,7 @@ class AbstractOscillatorController:
         Note: You only update and store the motor output at current iteration.
         i.e. set only self.motor_out[iteration,:]
         """
-        motor_output = np.zeros(self.n_oscillators)
+        motor_output = self.pars.motor_output_scaling * self.state[iteration,self.n_oscillators:]*(1 + np.cos(self.state[iteration,:self.n_oscillators]))
         self.motor_out[iteration, :] = motor_output
 
         return motor_output
@@ -142,6 +158,11 @@ class AbstractOscillatorController:
         You return the muscle activation of all body joints at current iteration (array of 2*n_joints_total)
         which includes updated motor outputs from active joints and the motor outputs for passive joints.
         """
-        self.state[iteration+1, :] = self.state[iteration, :]
-        return (np.zeros(30))
+        self.state[iteration+1, :] = self.state[iteration, :] + self.f(self.state[iteration,:]) * timestep
+        self.motor_out[iteration] = self.motor_output(iteration)
+        #print((self.motor_out[iteration]).shape)
+        
+        #we are adding the 4 oscillators that are passive with the zeros vector
+        return np.concatenate([self.motor_out[iteration], self.zeros4])
+
 
