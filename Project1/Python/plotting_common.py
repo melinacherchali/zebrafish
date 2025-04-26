@@ -272,16 +272,24 @@ def plot_1d(results, labels, n_data=300, log=False, cmap=None):
     set cmap='nipy_spectral' for high constrast results.
 
     """
-    xnew = np.linspace(min(results[:, 0]), max(results[:, 0]), n_data)
+    xnew = np.linspace(min(results[:, 0]), max(results[:, 0]), n_data) 
 
     results_interp = np.interp(xnew, results[:, 0], results[:, 1])
 
-    extent = (min(xnew), max(xnew))
-    plt.plot(results[:, 0], results[:, 1], 'r.')
-    plt.plot(xnew, results_interp, '--')
+    extent = (min(xnew), max(xnew)) 
+    # plt.plot(results[:, 0], results[:, 1], 'r.') 
+    # plt.plot(xnew, results_interp, '--')
+    # plt.xlim(extent)
+    # plt.xlabel(labels[0])
+    # plt.ylabel(labels[1])
+    
+    plt.plot(results[:, 0], results[:, 1], color = cmap) 
+    plt.plot(xnew, results_interp, '--', color = cmap) 
     plt.xlim(extent)
     plt.xlabel(labels[0])
     plt.ylabel(labels[1])
+
+
 
 
 def plot_2d(

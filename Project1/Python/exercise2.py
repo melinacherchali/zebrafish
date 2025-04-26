@@ -113,7 +113,6 @@ def exercise2_3(drag=False, twl_value=0, n_points=5):
         
     damping_values = [0.1, 1, 3]
     freq_values = np.linspace(0, 20, 5) 
-    nsim = len(freq_values) * len(damping_values)
 
     # === Generate parameter combinations ===
     all_pars = [SimulationParameters(
@@ -121,7 +120,7 @@ def exercise2_3(drag=False, twl_value=0, n_points=5):
             amp=0.01,
             twl=twl_value,
             freq=F,
-            simulation_i=i * nsim + j,
+            simulation_i= i * len(freq_values) + j,
             n_iterations=5001,
             log_path=log_path,
             compute_metrics='all',
@@ -147,8 +146,7 @@ def exercise2_3(drag=False, twl_value=0, n_points=5):
     for i, controller in enumerate(controllers):
         damping = all_pars[i].damping_factor
         freq = all_pars[i].freq
-        joint_amplitudes = controller.metrics["mech_joint_amplitudes"]
-        mean_amplitude = np.mean(joint_amplitudes)
+        mean_amplitude = controller.metrics["mech_mean_amplitude"]
         results_by_damping[damping].append((freq, mean_amplitude))
 
     # === Plotting: One figure per (twl_value, drag) combo ===
@@ -168,28 +166,117 @@ def exercise2_3(drag=False, twl_value=0, n_points=5):
     plt.grid(True)
     plt.tight_layout()
     
-    # plt.show()
+    plt.show()
 
     # === Save all figures ===
-    save_figures(folder='results', extensions=['png'])
+    # save_figures(folder='results', extensions=['png'])
 
 
+def exercise2_4():
+    pylog.info("Implement ex 2.4")
+    log_path = './logs/exercise2/'
+    os.makedirs(log_path, exist_ok=True)
+    
+    #  study the relationship between the activation frequency 
+    #  and the total wave lag (TWL) of the control wave
+    
+    frequ_range = np.linspace(3., 40., 5)
+    twl_range = np.linspace(0., 2., 5)
+    muscle_params = ["FN_5000_ZC_1000_G0_419", "FN_7500_ZC_1000_G0_419", "FN_10000_ZC_1000_G0_419"]
+    
+
+    # === Generate parameter combinations ===
+    all_pars = [SimulationParameters(
+            controller="sine",
+            amp=0.5, 
+            twl=twl_value,
+            freq=F,
+            simulation_= i * len(frequ_range) + j * len(muscle_params) + k,
+            n_iterations=5001,
+            log_path = os.path.join('./logs/exercise2/', f'sim_{i}_{j}_{k}'),
+            compute_metrics='all',
+            print_metrics=False,
+            return_network=True,
+            headless=True,
+            muscle_parameters_tag = muscle_param,
+            gravity=np.array([0, 0, 0]),
+        )
+        for i, twl_value in enumerate(twl_range)
+        for j, F in enumerate(frequ_range)
+        for k, muscle_param in enumerate(muscle_params)   
+    ]
+    
+    # === Run the simulations ===
+    pylog.info("Running the simulation")
+    controllers = run_multiple(all_pars, num_process=1)
+    # === Group results by muscle parameters ===
+    results_by_muscle_fwd = {mp: [] for mp in muscle_params}
+    results_by_muscle_lat = {mp: [] for mp in muscle_params}
+    results_by_muscle_cot = {mp: [] for mp in muscle_params} 
 
     
-    
+    for i, controller in enumerate(controllers):
+        muscle_param = all_pars[i].muscle_parameters_tag
+        freq = all_pars[i].freq
+        twl = all_pars[i].twl
+        # we want to observe speed of the muscle
+        speed_fwd = controller.metrics["mech_speed_fwd"]
+        speed_lat = controller.metrics["mech_speed_lat"]
+        cot = controller.metrics["mech_cot"]
+        results_by_muscle_cot[muscle_param].append((freq, twl, cot))  # new dictionary for CoT
+        results_by_muscle_fwd[muscle_param].append((freq, twl, speed_fwd)) # dim is (N, 3) → columns: freq, twl, speed
+        
+        
+    # Optional: Choose a color map
+    cmap = 'viridis'  # or 'nipy_spectral', 'plasma', etc.
 
+    # Plot for each muscle configuration
+    for muscle_param in muscle_params:
+        
+        results_fwd = np.array(results_by_muscle_fwd[muscle_param])
+
+        # --- 2D Plot for Forward Speed ---
+        plt.figure()
+        plot_2d(
+            results_fwd,
+            labels=["Frequency (Hz)", "TWL", "Forward Speed"],
+            cmap=cmap
+        )
+        plt.title(f"Forward Speed (2D) - Muscle: {muscle_param}")
+        plt.tight_layout()
+        
+     
+        # --- 2D Plot for Cost of Transport ---
+        results_cot = np.array(results_by_muscle_cot[muscle_param])
+        plt.figure()
+        plot_2d(
+            results_cot,
+            labels=["Frequency (Hz)", "TWL", "Cost of Transport"],
+            cmap=cmap
+        )
+        plt.title(f"Cost of Transport (2D) - Muscle: {muscle_param}")
+        plt.tight_layout()
+
+    plt.show()
+        
+        
+
+    
 def exercise2():
 
     pylog.info("Implement ex 2")
     log_path = './logs/exercise2/'
     os.makedirs(log_path, exist_ok=True)
     
-    exercise2_3(drag=False, twl_value=0)
-    exercise2_3(drag=True, twl_value=0)
-    exercise2_3(drag=False, twl_value=0.5)
-    exercise2_3(drag=True, twl_value=0.5)
-
+    # exercise2_2()
     
+    # exercise2_3(drag=False, twl_value=0)
+    # exercise2_3(drag=True, twl_value=0)
+    # exercise2_3(drag=False, twl_value=0.5)
+    # exercise2_3(drag=True, twl_value=0.5)
+
+    # exercise2_4()
+
 
     
 
