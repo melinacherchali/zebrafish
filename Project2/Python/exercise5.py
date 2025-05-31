@@ -37,11 +37,12 @@ def exercise5():
         print_metrics      = True,
         return_network     = True,
         drive              = 10,
-        video_name="simulation_test",
-        video_record = False,
-        headless           = False,
-        
+        video_name         = "simulation5",
+        video_record       = False,
+        headless           = True,
         cpg_amplitude_gain = motor_output_gains,
+        feedback_weights_contra = -0.25,
+        feedback_weights_ipsi = 0.25,
     )
 
     pylog.info("Running the simulation")
@@ -79,7 +80,7 @@ def exercise5():
     for ax in plt.gcf().get_axes()[:-1]:
         ax.set_xticklabels([])
     plt.title("Joint Angle Evolution", y = 18)
-    #plt.show()
+    plt.show()
     
 
 

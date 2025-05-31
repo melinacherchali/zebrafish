@@ -132,23 +132,18 @@ class AbstractOscillatorController:
         n_oscillators = self.n_oscillators
         hyperparameters = hp.define_hyperparameters()
         
-        #feedback_gain_ref= 1/ self.metrics["mech_mean_amplitude"]
-        self.pars.feedback_weights_contra = -0.25
-        self.pars.feedback_weights_ipsi = 0.25 
         W_contra = hyperparameters["ws_ref"] * self.pars.feedback_weights_contra
         W_ipsi = hyperparameters["ws_ref"] * self.pars.feedback_weights_ipsi
     
-        self.pars.joint_poses = pos
-        print(pos.size)
         
         s =  np.ones(n_oscillators)
         for i in range(self.n_oscillators):
             if (i %2 ==0):
                 joint_nb = i//2
-                s[i]= W_ipsi* max(0,self.pars.joint_poses[joint_nb]) + W_contra* max(0, -self.pars.joint_poses[joint_nb])
+                s[i]= W_ipsi* max(0,pos[joint_nb]) + W_contra* max(0, -pos[joint_nb])
             if (i % 2 !=0):
                 joint_nb = (i-1)//2
-                s[i] =  W_ipsi* max(0,-self.pars.joint_poses[joint_nb]) + W_contra* max(0, self.pars.joint_poses[joint_nb])
+                s[i] =  W_ipsi* max(0,-pos[joint_nb]) + W_contra* max(0, pos[joint_nb])
         phases = state[:n_oscillators]
         amplitudes = state[n_oscillators:2*n_oscillators]
         phase_repeat = np.repeat(
